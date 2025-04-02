@@ -1,6 +1,5 @@
 from enum import Enum
-
-SPECIAL_COLOR_SELECTABLE_CARDS = 4
+from typing import override
 
 class Color(Enum):
     RED = 0
@@ -40,15 +39,24 @@ class Card:
         return self._color
     def getCardType(self) -> CardType:
         return self._cardType
+    def isSpecialCardType(self) -> bool:
+        return self._cardType.value > CardType.NINE.value
+    def getName(self) -> str:
+        return f"dCard-{self._color}-{self._cardType}"
 
 class ColorSelectableCard(Card):
     def __init__(self, cardType : CardType, selectedColor : Color):
         if not cardType in [CardType.DRAW_FOUR, CardType.SELECT_COLOR]:
             raise IllegalCardException(f"The cardColor {Color.BLACK} and the card type {cardType} are incompatible.")
+        elif selectedColor == Color.BLACK:
+            raise IllegalCardException(f"Black is not available in select colors.")
         super().__init__(Color.BLACK, cardType)
         self._selectedColor = selectedColor
     def getSelectedColor(self) -> Color:
         return self._selectedColor
+    @override
+    def getName(self) -> str:
+        return f"csCard-{self._cardType}-{self._selectedColor}"
 
 class CardsUtil:
     @staticmethod
@@ -64,4 +72,6 @@ class CardsUtil:
                 if t in [CardType.DRAW_FOUR, CardType.SELECT_COLOR]:
                     continue
                 cards.append(Card(c, t))
+                if t != CardType.ZERO:
+                    cards.append(Card(c, t))
         return cards
