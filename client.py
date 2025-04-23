@@ -163,7 +163,8 @@ class Client:
                 print(("\n"*15)+"ゲーム終了！")
                 if d["c"]["winner"] == self._name:
                     print("あなたの勝ちです！！")
-                print(d["c"]["winner"]+"さんの勝ちです！")
+                else:
+                    print(d["c"]["winner"]+"さんの勝ちです！")
                 if d["c"]["reason"] == "noMoreHisCard":
                     print("手札がなくなりました！")
                 elif d["c"]["reason"] == "noMoreTableCard":
