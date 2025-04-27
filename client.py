@@ -32,7 +32,6 @@ class Server:
                 return {"t":"n"}
         else:
             dS:list[dict] = [json.loads(sS[0] + "}")]
-            print(sS[-1])
             dEnd = json.loads("{" + sS[-1])
             sS.pop(0)
             sS.pop(-1)
@@ -134,7 +133,7 @@ class Client:
                     case "tableCard":
                         self._tableCards = None
                         self._tableCard = card.CardUtil.cardNameToCard(d["c"]["card"])
-                print(("\n"*18)+"---- 更新 ----")
+                print("\033[3J---- 更新 ----")
                 if self._cardAmounts:
                     print("~~ 他の人のカード枚数 ~~")
                     for n in self._cardAmounts.keys():
