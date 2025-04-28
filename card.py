@@ -1,5 +1,4 @@
 from enum import Enum
-from typing import override
 
 class Color(Enum):
     RED = "RED"
@@ -57,7 +56,6 @@ class ColorSelectableCard(Card):
         self._selectedColor = color
     def getSelectedColor(self) -> Color:
         return self._selectedColor
-    @override
     def getName(self) -> str:
         return f"csCard-{self._cardType.value}-{self._selectedColor.value}"
     def getOnlyTypeName(self) -> str:
