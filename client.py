@@ -133,7 +133,7 @@ class Client:
                     case "tableCard":
                         self._tableCards = None
                         self._tableCard = card.CardUtil.cardNameToCard(d["c"]["card"])
-                print("\033[3J---- 更新 ----")
+                print("\033[2J---- 更新 ----")
                 if self._cardAmounts:
                     print("~~ 他の人のカード枚数 ~~")
                     for n in self._cardAmounts.keys():
