@@ -159,7 +159,7 @@ class Client:
             case "draw":
                 print(f"※あなたはドローを受けたので、{2 if self._tableCard.getCardType() == card.CardType.DRAW_TWO else 4}枚のカードが追加されました。")
             case "players":
-                print("プレイヤーの順番は以下のとおりです。\n\n"+("\n".join(["c"]["players"])))
+                print("プレイヤーの順番は以下のとおりです。\n\n"+("\n".join(d["c"]["players"])))
             case "end":
                 print(("\n"*15)+"ゲーム終了！")
                 if d["c"]["winner"] == self._name:
