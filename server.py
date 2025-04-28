@@ -255,7 +255,7 @@ class Server:
                     c.appendGetHaveCards(i)
                     self._restCards.remove(i)
             self._nextPutCardClient = list(self._clients.values())[0]
-            self._sendOutAll({"t": "players", "c":{"players": [p.getName() for p in self._clients]}})
+            self._sendOutAll({"t": "players", "c":{"players": [p.getName() for p in self._clients.values()]}})
             time.sleep(10)
             for c in self._clients.values():
                 sd = {"t":"update", "c":{"t": "clientCards", "myCards":[i.getName() for i in c.getHaveCards()], "cardAmounts": {}}}
