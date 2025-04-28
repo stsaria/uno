@@ -179,10 +179,6 @@ class Server:
                             self._winEnd(client)
 
                         self._pulled = False
-                        sd = {"t":"update", "c":{"t": "clientCards", "cardAmounts": {}}}
-                        for i in self._clients.values():
-                            sd["c"]["cardAmounts"][i.getName()] = len(i.getHaveCards())
-                        self._sendOutAll(sd)
                         self._sendOutAll({"t": "update", "c":{"t": "tableCard", "card":self._tableCard.getName()}})
                         client.send({"t":"update", "c":{"t": "clientCards", "myCards":[c.getName() for c in client.getHaveCards()]}})
                         time.sleep(0.5)
@@ -199,6 +195,10 @@ class Server:
                                 self._restCards.pop(len(self._restCards)-i-1)
                             self._nextPutCardClient.send({"t":"update", "c":{"t": "clientCards", "myCards":[c.getName() for c in self._nextPutCardClient.getHaveCards()]}})
                             self._nextPutCardClient.send({"t":"draw"})
+                        sd = {"t":"update", "c":{"t": "clientCards", "cardAmounts": {}}}
+                        for i in self._clients.values():
+                            sd["c"]["cardAmounts"][i.getName()] = len(i.getHaveCards())
+                        self._sendOutAll(sd)
                         self._nextPutCardClient.send({"t": "youArePutter"})
                         with self._clientsLock:
                             [self._clients[k].send({"t": "nextPutter", "c":{"putter":self._nextPutCardClient.getName()}}) if self._nextPutCardClient != self._clients[k] else None for k in self._clients.keys()]
@@ -263,9 +263,10 @@ class Server:
             self._sendOutAll({"t": "update", "c":{"t": "tableCard", "card":self._tableCard.getName()}})
             time.sleep(0.5)
             self._inPlayFlag = True
+            time.sleep(0.5)
             self._nextPutCardClient = random.choice(list(self._clients.values()))
-            self._nextPutCardClient.send({"t": "youArePutter"})
             [self._clients[k].send({"t": "nextPutter", "c":{"putter":self._nextPutCardClient.getName()}}) if self._nextPutCardClient != c else None for k in self._clients.keys()]
+            self._nextPutCardClient.send({"t": "youArePutter"})
     def matching(self):
         while True:
             try:
