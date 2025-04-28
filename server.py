@@ -254,6 +254,9 @@ class Server:
                 for i in self._restCards[:7]:
                     c.appendGetHaveCards(i)
                     self._restCards.remove(i)
+            self._nextPutCardClient = list(self._clients.values())[0]
+            self._sendOutAll({"t": "players", "c":{"players": [p.getName() for p in self._clients]}})
+            time.sleep(10)
             for c in self._clients.values():
                 sd = {"t":"update", "c":{"t": "clientCards", "myCards":[i.getName() for i in c.getHaveCards()], "cardAmounts": {}}}
                 for i in self._clients.values():
@@ -266,9 +269,6 @@ class Server:
             self._sendOutAll({"t": "update", "c":{"t": "tableCard", "card":self._tableCard.getName()}})
             time.sleep(0.5)
             self._inPlayFlag = True
-            self._nextPutCardClient = list(self._clients.values())[0]
-            self._sendOutAll({"t": "players", "c":{"players": [p.getName() for p in self._clients]}})
-            time.sleep(10)
             [self._clients[k].send({"t": "nextPutter", "c":{"putter":self._nextPutCardClient.getName()}}) if self._nextPutCardClient != c else None for k in self._clients.keys()]
             self._nextPutCardClient.send({"t": "youArePutter"})
     def matching(self):
