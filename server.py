@@ -234,6 +234,7 @@ class Server:
                         self._nextPutCardClient.send({"t": "youArePutter"})
                         with self._clientsLock:
                             [self._clients[k].send({"t": "nextPutter", "c":{"putter":self._nextPutCardClient.getName()}}) if self._nextPutCardClient != self._clients[k] else None for k in self._clients.keys()]
+                        self._pulled = False
                         sd = {"t": "done"}
                     case _:
                         pass
