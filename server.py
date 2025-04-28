@@ -266,8 +266,9 @@ class Server:
             self._sendOutAll({"t": "update", "c":{"t": "tableCard", "card":self._tableCard.getName()}})
             time.sleep(0.5)
             self._inPlayFlag = True
-            time.sleep(0.5)
-            self._nextPutCardClient = random.choice(list(self._clients.values()))
+            self._nextPutCardClient = list(self._clients.values())[0]
+            self._sendOutAll({"t": "players", "c":{"players": [p.getName() for p in self._clients]}})
+            time.sleep(10)
             [self._clients[k].send({"t": "nextPutter", "c":{"putter":self._nextPutCardClient.getName()}}) if self._nextPutCardClient != c else None for k in self._clients.keys()]
             self._nextPutCardClient.send({"t": "youArePutter"})
     def matching(self):
