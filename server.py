@@ -219,7 +219,9 @@ class Server:
                         for i in self._clients.values():
                             sd["c"]["cardAmounts"][i.getName()] = len(i.getHaveCards())
                         self._sendOutAll(sd)
+                        time.sleep(0.5)
                         client.send({"t":"update", "c":{"t": "clientCards", "myCards":[c.getName() for c in client.getHaveCards()]}})
+                        time.sleep(0.3)
                         sd = {"t": "youArePutter"}
                         self._pulled = True
                     case "pass":
